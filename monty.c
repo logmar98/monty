@@ -1,64 +1,46 @@
 #include "monty.h"
-int main(int ac, char **av) {
-
-    char *file = av[1];
-    if (ac == 1 || ac > 2)
-    {
-        perror("USAGE: monty file");
-        exit(EXIT_FAILURE);
-    }
-    if (access(file, F_OK) != 0)
-    {
-        printf("Error: Can't open file %s\n", file);
-        exit(EXIT_FAILURE);
-    }
-    
-
-    return 0;
-}
-
-#include "monty.h"
-node_s node = {NULL, NULL, NULL, 0};
-/**
-* main - monty code interpreter
-* @ac: number of arguments
-* @av: monty file location
-* Return: 0 on success
-*/
+node_t *node = NULL;
 int main(int ac, char *av[])
 {
-	char *content;
-	FILE *file;
-	size_t size = 0;
-	ssize_t read_line = 1;
-	stack_t *stack = NULL;
-	unsigned int counter = 0;
+    int fd;
+    size_t line_size = 0;
 
-	if ((ac == 1 || ac > 2))
-	{
-		fprintf(stderr, "USAGE: monty file\n");
-		exit(EXIT_FAILURE);
-	}
-	file = fopen(av[1], "r");
-	node.file = file;
-	if (!file)
-	{
-		fprintf(stderr, "Error: Can't open file %s\n", av[1]);
-		exit(EXIT_FAILURE);
-	}
-	while (read_line > 0)
-	{
-		content = NULL;
-		read_line = getline(&content, &size, file);
-		node.content = content;
-		counter++;
-		if (read_line > 0)
-		{
-			execute(content, &stack, counter, file);
-		}
-		free(content);
-	}
-	free_stack(stack);
-	fclose(file);
-return (0);
+    if (ac != 2)
+    {
+        dprintf(2,"USAGE: monty file\n");
+        exit(EXIT_FAILURE);
+    }
+
+    node = malloc(sizeof(node_t));
+    if (node == NULL) {
+        dprintf(2, "Error: malloc failed\n");
+        free_node(node);
+        exit(EXIT_FAILURE);
+    }
+    node->stream = NULL;
+    node->line = NULL;
+    
+    fd = open(av[1], O_RDONLY);
+    if (fd == -1){
+        stream_faild(av[1]);
+    }
+    node->stream = fdopen(fd, "r");
+    if (node->stream == NULL)
+    {
+        close(fd);
+        stream_faild(av[1]);
+    }
+    
+    while (getline(&node->line, &line_size, node->stream) != -1)
+    {
+        printf("%s", node->line);
+    }
+    
+    return (0);
+}
+
+void stream_faild(char *file) {
+        fprintf(stderr, "Error:Can't open file %s\n", file);
+        free_node(node);
+        exit(EXIT_FAILURE);
 }

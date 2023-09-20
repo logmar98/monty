@@ -1,5 +1,6 @@
 #ifndef __MONTY_H__
 #define __MONTY_H__
+#define  _GNU_SOURCE
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -9,16 +10,9 @@
 #include <fcntl.h>
 #include <ctype.h>
 #include <stddef.h>
+#include <string.h>
 
-/**
- * struct stack_s - doubly linked list representation of a stack (or queue)
- * @n: integer
- * @prev: points to the previous element of the stack (or queue)
- * @next: points to the next element of the stack (or queue)
- *
- * Description: doubly linked list node structure
- * for stack, queues, LIFO, FIFO
- */
+
 typedef struct stack_s
 {
         int n;
@@ -26,36 +20,23 @@ typedef struct stack_s
         struct stack_s *next;
 } stack_t;
 
-/**
- * struct instruction_s - opcode and its function
- * @opcode: the opcode
- * @f: function to handle the opcode
- *
- * Description: opcode and its function
- * for stack, queues, LIFO, FIFO
- */
+
 typedef struct instruction_s
 {
         char *opcode;
-        void (*f)(stack_t **stack, unsigned int line_number);
+        void (*f)(stack_t **head, unsigned int counter);
 } instruction_t;
 
-/**
- * struct node_s - variables -args, file, line content
- * @arg: value
- * @file: pointer to monty file
- * @content: line content
- * @condition: flag change stack <-> queue
- * Description: carries values through the program
- */
+
 typedef struct node_s
 {
-	char *arg;
-	FILE *file;
-	char *content;
-	int condition;
-}  node_s;
-extern node_s node;
+    FILE *stream;
+    char *line;
+} node_t;
+extern node_t *node;
 
-int execute(char *content, stack_t **head, unsigned int counter, FILE *file);
+
+void stream_faild(char *file);
+void free_node(node_t *stack);
+
 #endif
