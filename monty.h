@@ -40,4 +40,22 @@ typedef struct instruction_s
         void (*f)(stack_t **stack, unsigned int line_number);
 } instruction_t;
 
+/**
+ * struct node_s - variables -args, file, line content
+ * @arg: value
+ * @file: pointer to monty file
+ * @content: line content
+ * @condition: flag change stack <-> queue
+ * Description: carries values through the program
+ */
+typedef struct node_s
+{
+	char *arg;
+	FILE *file;
+	char *content;
+	int condition;
+}  node_s;
+extern node_s node;
+
+int execute(char *content, stack_t **head, unsigned int counter, FILE *file);
 #endif
