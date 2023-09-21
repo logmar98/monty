@@ -32,11 +32,23 @@ typedef struct node_s
 {
     FILE *stream;
     char *line;
+    unsigned int line_num;
+    char **tokens;
+    int num_tokens;
+    instruction_t *instruction;
 } node_t;
 extern node_t *node;
 
-
+void malloc_failed(void);
 void stream_faild(char *file);
 void free_node(node_t *stack);
+void tokenize_line(void);
+void get_inst(void);
+void run_inst(void);
+void free_tokens(void);
+void close_stream(void);
+
+void push(stack_t **stack, unsigned int line_numer);
+
 
 #endif
