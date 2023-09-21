@@ -1,6 +1,6 @@
 #include "monty.h"
 
-
+/*get our command or set our command to use*/
 void get_inst(void) {
     int i = 0;
     instruction_t instructions[] = {
@@ -30,7 +30,7 @@ void get_inst(void) {
     exit(EXIT_FAILURE);
 
 }
-
+/*run our command*/
 void run_inst(void){
     stack_t *stack = NULL;
     if (node->num_tokens == 0)
