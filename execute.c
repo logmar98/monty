@@ -5,6 +5,7 @@ void get_inst(void) {
     int i = 0;
     instruction_t instructions[] = {
 			{"push", &push},
+			{"pall", &pall},
 			{NULL, NULL}
 	};
 
@@ -26,7 +27,7 @@ void get_inst(void) {
     dprintf(2, "L%d: unknown instruction %s\n", node->line_num, node->tokens[0]);
     close_stream();
     free_tokens();
-    free_node(node);
+    free_node();
     exit(EXIT_FAILURE);
 
 }

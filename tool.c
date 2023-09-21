@@ -1,9 +1,48 @@
 #include "monty.h"
 
 /*free our node*/
-void free_node(node_t *stack)
+void free_node()
 {
-	free(stack);
+	if (node == NULL)
+	{
+		return;
+	}
+	if (node->instruction)
+	{
+		free(node->instruction);
+		node->instruction = NULL;
+	}
+	free_head();
+
+	if (node->line)
+	{
+		free(node->line);
+		node->line = NULL;
+	}
+	free(node);
+	
+}
+/*free the head*/
+
+void free_head(void){
+	if (node->head)
+	{
+		free_stack(node->head);
+	}
+	node->head = NULL;
+}
+/*free the stack*/
+void free_stack(stack_t *head){
+	if (head == NULL)
+	{
+		return;
+	}
+	if (head->next != NULL)
+	{
+		free_stack(head->next);
+	}
+	free(head);
+	
 }
 /*free our tokens*/
 void free_tokens(void){
@@ -21,6 +60,12 @@ void free_tokens(void){
 	node->tokens = NULL;
 	
 	
+}
+/*free all node*/
+void free_all_node(void){
+	close_stream();
+	free_tokens();
+	free_node();
 }
 /*close our stream, stream is the file_name*/
 void close_stream(void)
