@@ -1,9 +1,17 @@
-Monty project
+Monty project:
+General is a program interpreter that use to execute our code functions waiting for the outputs
 
-General
-What do LIFO and FIFO mean
-What is a stack, and when to use it
-What is a queue, and when to use it
-What are the common implementations of stacks and queues
-What are the most common use cases of stacks and queues
-What is the proper way to use global variables
+our command for monty:
+-push
+-pall
+-pint
+-pop
+-add
+-swap
+-nop
+
+feel free to try it by using this command in your terminal:
+./monty test/filename.m
+
+Example:
+./monty test/000.m
